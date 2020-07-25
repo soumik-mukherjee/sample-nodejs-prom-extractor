@@ -1,0 +1,21 @@
+version: "3"
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    depends_on:
+      - microSdaScrapeEndpoint
+    ports:
+      - "9090:9090"
+    networks:
+      - backend
+    volumes:
+      - "/home/soumik/Containers/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
+  microSdaScrapeEndpoint:
+    image: sample-nodejs-prom-extractor:local
+    ports:
+      - "8080:8080"
+      - "127.0.0.1:9339:9339"
+    networks:
+      - backend
+networks:
+  backend:
